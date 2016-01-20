@@ -1,0 +1,46 @@
+########### install files ###############
+
+IF(BUILD_FOR_ANDROID)
+  INSTALL(FILES ssystem.ini default_shortcuts.json base_locations.bin.gz Roboto-Regular.ttf default_config.ini DejaVuSansMono.ttf iso639-1.utf8 iso3166-1-alpha-2.utf8 countryCodes.dat DESTINATION share/${PACKAGE}/data)
+ELSE()
+  INSTALL(FILES stellarium.ico ssystem.ini default_shortcuts.json base_locations.bin.gz DejaVuSans.ttf default_config.ini DejaVuSansMono.ttf iso639-1.utf8 iso3166-1-alpha-2.utf8 countryCodes.dat DESTINATION share/${PACKAGE}/data)
+ENDIF()
+
+IF(GUI_MODE STREQUAL "Mobile")
+#this, uhhh, needs to be fixed. I'm fairly certain this isn't the right way to go about doing this...
+  FILE(GLOB mobileGuiFiles "${CMAKE_CURRENT_SOURCE_DIR}/mobileGui/images/*")
+  INSTALL(FILES ${mobileGuiFiles} DESTINATION share/${PACKAGE}/gui/images)
+  FILE(GLOB mobileGuiFiles "${CMAKE_CURRENT_SOURCE_DIR}/mobileGui/images-hdpi/*")
+  INSTALL(FILES ${mobileGuiFiles} DESTINATION share/${PACKAGE}/gui/images-hdpi)
+  FILE(GLOB mobileGuiFiles "${CMAKE_CURRENT_SOURCE_DIR}/mobileGui/images-ldpi/*")
+  INSTALL(FILES ${mobileGuiFiles} DESTINATION share/${PACKAGE}/gui/images-ldpi)
+  FILE(GLOB mobileGuiFiles "${CMAKE_CURRENT_SOURCE_DIR}/mobileGui/images-mdpi/*")
+  INSTALL(FILES ${mobileGuiFiles} DESTINATION share/${PACKAGE}/gui/images-mpi)
+  FILE(GLOB mobileGuiFiles "${CMAKE_CURRENT_SOURCE_DIR}/mobileGui/images-nodpi/*")
+  INSTALL(FILES ${mobileGuiFiles} DESTINATION share/${PACKAGE}/gui/images-nodpi)
+  FILE(GLOB mobileGuiFiles "${CMAKE_CURRENT_SOURCE_DIR}/mobileGui/images-xhdpi/*")
+  INSTALL(FILES ${mobileGuiFiles} DESTINATION share/${PACKAGE}/gui/images-xhdpi)
+ENDIF()
+
+IF (BUILD_FOR_MAEMO)
+  INSTALL(FILES maemo/stellarium.desktop DESTINATION /usr/share/applications/hildon)
+  INSTALL(FILES maemo/stellarium.png DESTINATION /usr/share/icons/hicolor/48x48/apps)
+ENDIF()
+
+IF(UNIX AND NOT APPLE)
+  INSTALL(FILES stellarium.desktop DESTINATION share/applications)
+  INSTALL(FILES stellarium.xpm DESTINATION share/pixmaps)
+  INSTALL(FILES icons/16x16/stellarium.png DESTINATION share/icons/hicolor/16x16/apps)
+  INSTALL(FILES icons/32x32/stellarium.png DESTINATION share/icons/hicolor/32x32/apps)
+  INSTALL(FILES icons/48x48/stellarium.png DESTINATION share/icons/hicolor/48x48/apps)
+  INSTALL(FILES icons/64x64/stellarium.png DESTINATION share/icons/hicolor/64x64/apps)
+  INSTALL(FILES icons/128x128/stellarium.png DESTINATION share/icons/hicolor/128x128/apps)
+  INSTALL(FILES icons/256x256/stellarium.png DESTINATION share/icons/hicolor/256x256/apps)
+  INSTALL(FILES icons/512x512/stellarium.png DESTINATION share/icons/hicolor/512x512/apps)
+ENDIF()
+
+IF(MACOSX)
+  INSTALL(FILES Icon.icns DESTINATION share )
+  INSTALL(FILES Info.plist PkgInfo DESTINATION . )
+ENDIF(MACOSX)
+
